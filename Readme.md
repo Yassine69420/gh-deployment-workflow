@@ -5,7 +5,7 @@ This repository shows a minimal GitHub Actions workflow that deploys `index.html
 **Behavior**
 - Every push to the `main` branch that **changes** `index.html` will run the workflow and publish the page.
 - The published page will be available at:
-  `https://<your-username>.github.io/gh-deployment-workflow/`
+  `https://github.com/Yassine69420/gh-deployment-workflow`
 
 Replace `<your-username>` with your GitHub username.
 
