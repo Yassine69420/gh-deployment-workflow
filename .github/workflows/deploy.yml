@@ -1,0 +1,45 @@
+name: Deploy index.html to GitHub Pages
+
+# Only run on pushes to main that change index.html
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "index.html"
+
+permissions:
+  contents: read # read the repository
+  pages: write # allow Pages deployment
+  id-token: write # sometimes required for Pages workflows
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare publish directory
+        run: |
+          # make a small directory containing only index.html (Pages expects the entry file at artifact root)
+          rm -rf public || true
+          mkdir -p public
+          cp index.html public/index.html
+          # include a .nojekyll if you want to disable Jekyll processing (optional)
+          touch public/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
